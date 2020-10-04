@@ -5,7 +5,7 @@ const app = express(); // ExpressJS declaration
 // app.use(express.static(__dirname + '../public')); //
 
 // Port
-let PORT = process.env.PORT || 3000;
+let PORT = process.env.PORT || 8080;
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
