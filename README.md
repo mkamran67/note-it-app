@@ -2,4 +2,4 @@
 
 
 ### Link To Deployed App
-[Heroku Link] (https://note-it-app-hw.herokuapp.com/notes)
+[Heroku Link](https://note-it-app-hw.herokuapp.com/notes)
