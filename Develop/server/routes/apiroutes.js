@@ -2,6 +2,7 @@
 const path = require('path');
 const fs = require('fs');
 const uniqid = require('uniqid');
+const e = require('express');
 
 // GET /api/notes - Should read the db.json file and return all saved notes as JSON. ✅
 // POST /api/notes - Should receive a new note to save on the request body, add it to the db.json file, and then return the new note to the client. ✅
@@ -13,8 +14,22 @@ module.exports = function (app) {
 
   // GET /api/notes
   app.get('/api/notes', (req, res) => {
-    fs.readFile(file, (err, data) => {
-      res.json(JSON.parse(data));
+    fs.access(file, fs.constants.F_OK, (err) => {
+      if (err) {
+        res.send(`File doesn't exist`);
+      } else {
+        fs.readFile(file, (err, data) => {
+          if (err) {
+            console.log(`error`);
+            console.log(err);
+          } else if (data.length === 0) {
+            console.log(`empty file`);
+            res.send('empty file nothing to pull');
+          } else {
+            res.json(JSON.parse(data));
+          }
+        });
+      }
     });
   });
 
@@ -28,7 +43,7 @@ module.exports = function (app) {
     fs.access(file, fs.constants.F_OK, (err) => {
       // If file doesn't exist ->
       if (err) {
-        console.log(`${file} ${err} does not exist.`);
+        console.log(`${file} does not exist.`);
         fs.writeFile(file, req.body, (err) => {
           console.log(err);
         });
@@ -98,7 +113,7 @@ module.exports = function (app) {
 
             // Empty current file
             fs.writeFile(file, '', (err) =>
-              err ? console.log(err) : console.log(`emptied file`)
+              err ? console.log(err) : console.log(`Deleting...`)
             );
 
             // Write new notes
