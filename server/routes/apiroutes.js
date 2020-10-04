@@ -10,7 +10,7 @@ const e = require('express');
 
 // ROUTING
 module.exports = function (app) {
-  const file = '../db/db.json';
+  const file = path.join(__dirname, '../../db/db.json');
 
   // GET /api/notes
   app.get('/api/notes', (req, res) => {
